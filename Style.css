@@ -1,0 +1,97 @@
+:root {
+    --neon-blue: #00d2ff;
+    --neon-purple: #b026ff;
+    --bg-color: #050508;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--bg-color);
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+}
+
+/* Perspective adds depth for the parallax effect */
+.button-wrapper {
+    perspective: 1000px; 
+}
+
+.magnetic-btn {
+    position: relative;
+    padding: 22px 65px;
+    background: rgba(0, 210, 255, 0.03);
+    border: 1px solid rgba(0, 210, 255, 0.2);
+    border-radius: 12px;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Smooth transitions for returning to the center when mouse leaves */
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                box-shadow 0.4s ease, 
+                background 0.4s ease;
+    
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.05),
+                inset 0 0 10px rgba(0, 210, 255, 0.05);
+}
+
+/* The Animated Gradient Border */
+.magnetic-btn::before {
+    content: '';
+    position: absolute;
+    inset: -2px; /* Pulls the border outside the button slightly */
+    border-radius: 14px;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-blue));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    background-size: 200% 200%;
+    animation: gradientBorder 3s linear infinite;
+}
+
+@keyframes gradientBorder {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.btn-text {
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px var(--neon-blue);
+    z-index: 2;
+    pointer-events: none; /* Prevents text from blocking mouse events */
+    transition: transform 0.2s ease-out; /* Smooth parallax */
+}
+
+/* The invisible canvas overlay for particles */
+.particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    pointer-events: none; /* Let clicks pass through */
+    z-index: 1;
+}
+
+/* Hover States */
+.magnetic-btn:hover {
+    box-shadow: 0 0 40px rgba(0, 210, 255, 0.3),
+                inset 0 0 20px rgba(0, 210, 255, 0.2);
+    background: rgba(0, 210, 255, 0.1);
+}
+
+.magnetic-btn:hover::before {
+    opacity: 1;
+}
